@@ -19,13 +19,24 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
 public final class AccursedNetworking {
+	private static boolean payloadsRegistered;
+
 	private AccursedNetworking() {
 	}
 
-	public static void registerServer() {
+	public static void registerPayloads() {
+		if (payloadsRegistered) {
+			return;
+		}
+
 		PayloadTypeRegistry.playC2S().register(UseAbilityPayload.TYPE, UseAbilityPayload.CODEC);
 		PayloadTypeRegistry.playC2S().register(SelectAbilityPayload.TYPE, SelectAbilityPayload.CODEC);
 		PayloadTypeRegistry.playS2C().register(AbilityStatePayload.TYPE, AbilityStatePayload.CODEC);
+		payloadsRegistered = true;
+	}
+
+	public static void registerServer() {
+		registerPayloads();
 
 		ServerPlayNetworking.registerGlobalReceiver(UseAbilityPayload.TYPE, (payload, context) -> {
 			ServerPlayer player = context.player();
@@ -47,9 +58,7 @@ public final class AccursedNetworking {
 	}
 
 	public static void registerClient() {
-		PayloadTypeRegistry.playS2C().register(AbilityStatePayload.TYPE, AbilityStatePayload.CODEC);
-		PayloadTypeRegistry.playC2S().register(UseAbilityPayload.TYPE, UseAbilityPayload.CODEC);
-		PayloadTypeRegistry.playC2S().register(SelectAbilityPayload.TYPE, SelectAbilityPayload.CODEC);
+		registerPayloads();
 
 		ClientPlayNetworking.registerGlobalReceiver(AbilityStatePayload.TYPE, (payload, context) -> context.client().execute(() -> {
 			long tick = context.client().level == null ? 0L : context.client().level.getGameTime();
