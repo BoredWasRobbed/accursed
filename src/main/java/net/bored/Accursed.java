@@ -1,7 +1,10 @@
 package net.bored;
 
 import net.fabricmc.api.ModInitializer;
-
+import net.bored.curse.CursePlayerState;
+import net.bored.curse.technique.AccursedTechniques;
+import net.bored.negativity.NegativityManager;
+import net.bored.network.AccursedNetworking;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,10 +18,11 @@ public class Accursed implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		// This code runs as soon as Minecraft is in a mod-load-ready state.
-		// However, some things (like resources) may still be uninitialized.
-		// Proceed with mild caution.
+		AccursedTechniques.registerDefaults();
+		CursePlayerState.registerEvents();
+		NegativityManager.registerEvents();
+		AccursedNetworking.registerServer();
 
-		LOGGER.info("Hello Fabric world!");
+		LOGGER.info("Accursed systems initialized.");
 	}
 }

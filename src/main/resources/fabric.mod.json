@@ -18,6 +18,9 @@
 		"main": [
 			"net.bored.Accursed"
 		],
+		"client": [
+			"net.bored.client.AccursedClient"
+		],
 		"fabric-datagen": [
 			"net.bored.AccursedDataGenerator"
 		]

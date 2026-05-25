@@ -3,7 +3,10 @@
 	"package": "net.bored.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"ExampleMixin"
+		"FireBlockMixin"
+	],
+	"client": [
+		"MouseHandlerMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
